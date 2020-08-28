@@ -9,13 +9,7 @@ cd quorum
 make all
 ```
 
-2. make istanbul-tools
-```bash
-cd ~/quorum/istanbul-tools
-make
-```
-
-3. set environment
+2. set environment
 ```bash
 cd ~
 vi ~/.bash_profile
@@ -28,14 +22,14 @@ export PATH=$QUORUM/bin:$PATH
 source ~/.bash_profile
 ```
 
-4. start network
+3. start network
 ```bash
 cd ~/quorum
 chmod +x start5.sh
 ./start5.sh
 ```
 
-5. test
+4. test
 modify the keystore director in simple_transfer/main.go
 
 ```bash
