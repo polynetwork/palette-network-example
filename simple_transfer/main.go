@@ -42,12 +42,12 @@ func init() {
 
 func main() {
 
-   src := AdminAddress
-   dst := TestAddress
-   amount := One
+	src := AdminAddress
+	dst := TestAddress
+	amount := One
 
-   // create wrap rpc client
-   client := getClient(RpcURL, KeyFile, Passphrase)
+	// create wrap rpc client
+	client := getClient(RpcURL, KeyFile, Passphrase)
 
 	// get balance before transfer
 	srcBalanceBeforeTransfer := client.Balance(src)
