@@ -24,7 +24,7 @@ source ~/.bash_profile
 
 3. start network
 ```bash
-cd ~/quorum
+cd ~/palette-network-example
 chmod +x start5.sh
 ./start5.sh
 ```
@@ -33,6 +33,6 @@ chmod +x start5.sh
 modify the keystore director in simple_transfer/main.go
 
 ```bash
-cd ~/quorum
+cd ~/palette-network-example
 go run simple_transfer/main.go
 ```
