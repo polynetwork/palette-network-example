@@ -1,4 +1,4 @@
-## Palette network
+## Palette network example
 
 ### steps:
 1. get palette souce code and build
