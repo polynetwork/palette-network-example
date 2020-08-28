@@ -22,7 +22,7 @@ export PATH=$QUORUM/bin:$PATH
 source ~/.bash_profile
 
 which geth
-# make sure the `geth` patb is correct
+# make sure the `geth` path is correct
 ```
 
 3. start network
