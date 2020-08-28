@@ -20,6 +20,9 @@ export PATH=$QUORUM/bin:$PATH
 :wq!
 
 source ~/.bash_profile
+
+which geth
+# make sure the direction for `geth` is correct
 ```
 
 3. start network
