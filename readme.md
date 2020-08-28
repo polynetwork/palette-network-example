@@ -33,9 +33,10 @@ chmod +x start5.sh
 ```
 
 4. test
-modify the keystore director in simple_transfer/main.go
-
 ```bash
+
+# first, modify the keystore director in simple_transfer/main.go
 cd /your/gopath/palette-network-example
 go run simple_transfer/main.go
+
 ```
