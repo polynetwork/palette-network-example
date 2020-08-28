@@ -35,8 +35,10 @@ chmod +x start5.sh
 4. test
 ```bash
 
-# first, modify the keystore director in simple_transfer/main.go
-cd /your/gopath/palette-network-example
-go run simple_transfer/main.go
+# first, pls wait seconds until the p2p network connection is successful
+# second, modify the keystore director in simple_transfer/main.go
+cd /your/gopath/palette-network-example/simple_transfer
+go mod download
+go run main.go
 
 ```
