@@ -1,11 +1,11 @@
-## Palette network
+## Palette network example
 
 ### steps:
-1. get quorum souce code and build
+1. get palette souce code and build
 ```bash
 cd ~
-git clone git@github.com:polynetwork/quorum.git
-cd quorum 
+git clone git@github.com:polynetwork/palette.git
+cd palette
 make all
 ```
 
@@ -14,9 +14,9 @@ make all
 cd ~
 vi ~/.bash_profile
 
-# add quorum
-export QUORUM=$HOME/quorum/build
-export PATH=$QUORUM/bin:$PATH
+# add palette
+export PALETTE=/your/gopath/palette/build
+export PATH=$PALETTE/bin:$PATH
 :wq!
 
 source ~/.bash_profile
