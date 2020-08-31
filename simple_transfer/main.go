@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/BurntSushi/toml"
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -16,38 +17,49 @@ import (
 	"github.com/ipfs/go-log"
 )
 
-var (
-	logger = log.Logger("geth")
-	One, _ = new(big.Int).SetString("1000000000000000000", 10)
-)
-
 const (
 	NetworkID = 10
 	GasLimit  = 21000
 	GasPrice  = 0
-
-	RpcURL       = "http://localhost:22000"
-	Keystore     = `/Users/dylen/software/palette/node0/data/keystore/`
-	KeyFile      = Keystore + `UTC--2020-08-26T09-55-25.770341000Z--57a259e0bcd61dffdd205a5cd046be9068e832dd`
-	Passphrase   = `111111`
-	AdminAddress = `0x57A259e0BcD61dFfdd205a5Cd046be9068E832dd`
-	TestAddress  = `0x8409f65FD78a03edd654671a9d15c6E9962C07c9`
 )
+
+var (
+	logger  = log.Logger("geth")
+	Eth1, _ = new(big.Int).SetString("1000000000000000000", 10)
+
+	config = &Config{Alloc: new(AllocAccount)}
+)
+
+type Config struct {
+	Rpc         string
+	Alloc       *AllocAccount
+	TestAddress string
+}
+
+type AllocAccount struct {
+	KeyFile    string
+	Address    string
+	Passphrase string
+}
 
 func init() {
 	if err := log.SetLogLevel("*", "DEBUG"); err != nil {
 		panic(fmt.Sprintf("failed to initialize logger: [%v]", err))
 	}
+
+	if _, err := toml.DecodeFile("./config.toml", config); err != nil {
+		panic(fmt.Sprintf("failed to decode config file: [%v]", err))
+	}
 }
 
 func main() {
 
-	src := AdminAddress
-	dst := TestAddress
-	amount := One
+	src := config.Alloc.Address
+	dst := config.TestAddress
+	amount := Eth1
 
 	// create wrap rpc client
-	client := getClient(RpcURL, KeyFile, Passphrase)
+	client := getClient(config.Rpc, config.Alloc.KeyFile, config.Alloc.Passphrase)
 
 	// get balance before transfer
 	srcBalanceBeforeTransfer := client.Balance(src)
@@ -71,7 +83,7 @@ func main() {
 	dstBalanceAfterTransfer := client.Balance(dst)
 	srcBalanceDec := new(big.Int).Sub(srcBalanceBeforeTransfer, srcBalanceAfterTransfer)
 	dstBalanceAdd := new(big.Int).Sub(dstBalanceAfterTransfer, dstBalanceBeforeTransfer)
-	intAmount := new(big.Int).Div(amount, One)
+	intAmount := new(big.Int).Div(amount, Eth1)
 
 	if srcBalanceDec.Cmp(intAmount) != 0 || dstBalanceAdd.Cmp(intAmount) != 0 {
 		logger.Fatalf("transfer amount error, "+
@@ -103,7 +115,7 @@ func (c *wrapClient) Balance(address string) *big.Int {
 	}
 
 	src, _ := new(big.Int).SetString(raw, 0)
-	data := new(big.Int).Div(src, One)
+	data := new(big.Int).Div(src, Eth1)
 
 	return data
 }
@@ -171,7 +183,7 @@ func getClient(
 ) *wrapClient {
 	client, err := rpc.Dial(url)
 	if err != nil {
-		panic(err)
+		logger.Fatalf("failed to dial geth rpc: [%v]", err)
 	}
 
 	keyJson, err := ioutil.ReadFile(keyFile)

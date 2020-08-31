@@ -1,0 +1,9 @@
+rpc = "http://localhost:22000"
+
+testAddress = "0x8409f65FD78a03edd654671a9d15c6E9962C07c9"
+
+[alloc]
+    KeyFile = "../node0/data/keystore/UTC--2020-08-26T09-55-25.770341000Z--57a259e0bcd61dffdd205a5cd046be9068e832dd"
+    Address = "0x57A259e0BcD61dFfdd205a5Cd046be9068E832dd"
+    Passphrase   = "111111"
+

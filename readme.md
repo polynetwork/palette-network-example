@@ -35,8 +35,8 @@ chmod +x start5.sh
 4. test
 ```bash
 
-# first, pls wait seconds until the p2p network connection is successful
-# second, modify the keystore director in simple_transfer/main.go
+# first, modify your alloc account and test account in simple_transfer/config.toml
+# second, please wait seconds until the p2p network connection is successful
 cd /your/gopath/palette-network-example/simple_transfer
 go mod download
 go run main.go
