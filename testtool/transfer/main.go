@@ -11,9 +11,11 @@ import (
 
 var logger = log.Logger("geth")
 
+const cfgPath = "/Users/dylen/software/palette/testtool/config.toml"
+
 func main() {
 
-	cfg := config.GenerateConfig("./config.toml")
+	cfg := config.GenerateConfig(cfgPath)
 
 	src := cfg.Admin.Address
 	dst := cfg.TestAddress

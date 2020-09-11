@@ -1,12 +1,15 @@
 package utils
 
 import (
+	"context"
 	"encoding/hex"
 	"fmt"
 	"math/big"
 	"strings"
 
+	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/rlp"
 )
@@ -74,12 +77,67 @@ func (c *PaletteClient) SendRawTransaction(signedTx string) (common.Hash, error)
 	return result, nil
 }
 
+func (c *PaletteClient) AdminAddress() common.Address {
+	return c.key.Address
+}
+
+func (c *PaletteClient) DumpEventLog(hash common.Hash) error {
+	raw := &types.Receipt{}
+
+	if err := c.Call(raw, "eth_getTransactionReceipt", hash.Hex()); err != nil {
+		return fmt.Errorf("failed to get nonce: [%v]", err)
+	}
+
+	for _, event := range raw.Logs {
+		logger.Infof("eventlog address %s", event.Address.Hex())
+		logger.Infof("eventlog data %s", new(big.Int).SetBytes(event.Data).String())
+		for i, topic := range event.Topics {
+			logger.Infof("eventlog topic[%d] %s", i, topic.String())
+		}
+	}
+	return nil
+}
+
+func (c *PaletteClient) CallContract(from, to common.Address, payload []byte) ([]byte, error) {
+	var res hexutil.Bytes
+	arg := ethereum.CallMsg{
+		From: from,
+		To:   &PLTAddress,
+		Data: payload,
+	}
+	err := c.CallContext(context.Background(), &res, "eth_call", toCallArg(arg), "latest")
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func toCallArg(msg ethereum.CallMsg) interface{} {
+	arg := map[string]interface{}{
+		"from": msg.From,
+		"to":   msg.To,
+	}
+	if len(msg.Data) > 0 {
+		arg["data"] = hexutil.Bytes(msg.Data)
+	}
+	if msg.Value != nil {
+		arg["value"] = (*hexutil.Big)(msg.Value)
+	}
+	if msg.Gas != 0 {
+		arg["gas"] = hexutil.Uint64(msg.Gas)
+	}
+	if msg.GasPrice != nil {
+		arg["gasPrice"] = (*hexutil.Big)(msg.GasPrice)
+	}
+	return arg
+}
+
 func TransferETH(nonce uint64, toAddress string, value *big.Int) *types.Transaction {
 	return types.NewTransaction(
 		nonce,
 		common.HexToAddress(toAddress),
 		value,
-		GasLimit,
+		GasMin,
 		big.NewInt(GasPrice),
 		nil,
 	)
