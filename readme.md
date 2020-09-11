@@ -13,6 +13,12 @@ Path of the secret key file: admin/keystore/UTC--2020-09-11T02-29-49.024005000Z-
 # 2.mkdir node dir
 ```bash
 mkdir node0 node1 node2 node3 node4
+
+mkdir -p node0/data/geth
+mkdir -p node1/data/geth
+mkdir -p node2/data/geth
+mkdir -p node3/data/geth
+mkdir -p node4/data/geth
 ```
 
 # 3.gen nodekeys, static-node.json, genesis.json
