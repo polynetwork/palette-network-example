@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
 killall -INT geth
 
 sleep 5s;

@@ -7,8 +7,8 @@
 geth --datadir=admin account new
 ```
 
-Public address of the key:   0xf3A9d42C01635A585f1721463842F8936075105F
-Path of the secret key file: admin/keystore/UTC--2020-09-11T02-29-49.024005000Z--f3a9d42c01635a585f1721463842f8936075105f
+Public address of the key:   0xf3A9d42C01635A585f1721463842F8936075105F 
+Path of the secret key file: admin/keystore/UTC--2020-09-11T02-29-49.024005000Z--f3a9d42c01635a585f1721463842f8936075105f 
 
 # 2.mkdir node dir
 ```bash
@@ -113,8 +113,8 @@ genesis.json
 ```
 
 Notice: 
-[x] modify ip and port in setup/static-nodes.json
-[x] modify genesis.json, add admin public address in config
+. [x] modify ip and port in setup/static-nodes.json 
+. [x] modify genesis.json, add admin public address in config 
 
 # 4.copy setup files in nodes
 ```bash
@@ -156,3 +156,19 @@ geth --datadir data init genesis.json
 ```
 
 # 6.start up all nodes
+```bash
+cd node0
+PRIVATE_CONFIG=ignore nohup geth --datadir data --nodiscover --istanbul.blockperiod 5 --syncmode full --mine --minerthreads 1 --verbosity 5 --networkid 10 --rpc --rpcaddr 0.0.0.0 --rpcport 22000 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --emitcheckpoints --port 30300 2>>node.log &
+
+cd ../node1
+PRIVATE_CONFIG=ignore nohup geth --datadir data --nodiscover --istanbul.blockperiod 5 --syncmode full --mine --minerthreads 1 --verbosity 5 --networkid 10 --rpc --rpcaddr 0.0.0.0 --rpcport 22001 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --emitcheckpoints --port 30301 2>>node.log &
+
+cd ../node2
+PRIVATE_CONFIG=ignore nohup geth --datadir data --nodiscover --istanbul.blockperiod 5 --syncmode full --mine --minerthreads 1 --verbosity 5 --networkid 10 --rpc --rpcaddr 0.0.0.0 --rpcport 22002 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --emitcheckpoints --port 30302 2>>node.log &
+
+cd ../node3
+PRIVATE_CONFIG=ignore nohup geth --datadir data --nodiscover --istanbul.blockperiod 5 --syncmode full --mine --minerthreads 1 --verbosity 5 --networkid 10 --rpc --rpcaddr 0.0.0.0 --rpcport 22003 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --emitcheckpoints --port 30303 2>>node.log &
+
+cd ../node4
+PRIVATE_CONFIG=ignore nohup geth --datadir data --nodiscover --istanbul.blockperiod 5 --syncmode full --mine --minerthreads 1 --verbosity 5 --networkid 10 --rpc --rpcaddr 0.0.0.0 --rpcport 22004 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --emitcheckpoints --port 30304 2>>node.log &
+```
