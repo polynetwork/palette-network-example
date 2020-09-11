@@ -1,0 +1,41 @@
+{
+    "type":"function",
+    "constant":false,
+    "name":"mint",
+    "inputs":[
+        {
+            "name":"owner",
+            "type":"address"
+        },
+        {
+            "name":"value",
+            "type":"uint256"
+        }
+    ],
+    "outputs":[
+        {
+            "name":"",
+            "type":"bool"
+        }
+    ],
+    "payable":false,
+    "stateMutability":"nonpayable"
+}
+
+{
+    "type":"event",
+    "anonymous":false,
+    "name":"mint",
+    "inputs":[
+        {
+            "indexed":false,
+            "name":"owner",
+            "type":"address"
+        },
+        {
+            "indexed":false,
+            "name":"value",
+            "type":"uint256"
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+rpc = "http://localhost:22000"
+
+testAddress = "0x715d8b50ad9acfdde186c247b8e2930d122aa901"
+
+[admin]
+    KeyFile = "../../admin/keystore/UTC--2020-09-11T02-29-49.024005000Z--f3a9d42c01635a585f1721463842f8936075105f"
+    Address = "0xf3A9d42C01635A585f1721463842F8936075105F"
+    Passphrase   = "111111"
