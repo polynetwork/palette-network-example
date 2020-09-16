@@ -6,35 +6,44 @@ import (
 
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/palettechain/testtool/config"
 )
 
 type PaletteClient struct {
 	*rpc.Client
-	key *keystore.Key
+	Admin        *keystore.Key
+	TestAccounts []*keystore.Key
 }
 
-func NewPaletteClient(
-	url string,
-	keyFile string,
-	passphrase string,
-) *PaletteClient {
-	client, err := rpc.Dial(url)
+func NewPaletteClient(c *config.Config) *PaletteClient {
+	client, err := rpc.Dial(c.Rpc)
 	if err != nil {
 		panic(fmt.Errorf("failed to dial geth rpc: [%v]", err))
 	}
 
-	keyJson, err := ioutil.ReadFile(keyFile)
+	admin := loadAccount(c.Admin)
+	testAccounts := make([]*keystore.Key, len(c.TestAccounts))
+	for i := 0; i < len(c.TestAccounts); i++ {
+		testAccounts[i] = loadAccount(c.TestAccounts[i])
+	}
+
+	return &PaletteClient{
+		Client:       client,
+		Admin:        admin,
+		TestAccounts: testAccounts,
+	}
+}
+
+func loadAccount(c *config.Account) *keystore.Key {
+	keyJson, err := ioutil.ReadFile(c.KeyFile)
 	if err != nil {
 		panic(fmt.Errorf("failed to read file: [%v]", err))
 	}
 
-	key, err := keystore.DecryptKey(keyJson, passphrase)
+	key, err := keystore.DecryptKey(keyJson, c.Passphrase)
 	if err != nil {
 		panic(fmt.Errorf("failed to decrypt keyjson: [%v]", err))
 	}
 
-	return &PaletteClient{
-		Client: client,
-		key:    key,
-	}
+	return key
 }

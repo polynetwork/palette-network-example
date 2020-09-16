@@ -8,13 +8,12 @@ import (
 
 type Config struct {
 	Rpc         string
-	Admin       *AdminAccount
-	TestAddress string
+	Admin       *Account
+	TestAccounts []*Account
 }
 
-type AdminAccount struct {
+type Account struct {
 	KeyFile    string
-	Address    string
 	Passphrase string
 }
 

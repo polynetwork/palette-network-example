@@ -17,12 +17,12 @@ func main() {
 
 	cfg := config.GenerateConfig(cfgPath)
 
-	src := cfg.Admin.Address
-	dst := cfg.TestAddress
-	amount := utils.OneEth
-
 	// create wrap rpc client
-	client := utils.NewPaletteClient(cfg.Rpc, cfg.Admin.KeyFile, cfg.Admin.Passphrase)
+	client := utils.NewPaletteClient(cfg)
+
+	src := client.Admin.Address.Hex()
+	dst := client.TestAccounts[0].Address.Hex()
+	amount := utils.OneEth
 
 	// get balance before transfer
 	srcBalanceBeforeTransfer, err := client.Balance(src)
@@ -43,7 +43,7 @@ func main() {
 
 	// build and send transfer transaction
 	tx := utils.TransferETH(nonce, dst, amount)
-	signedTx, err := client.SignTransaction(tx)
+	signedTx, err := client.SignTransaction(client.Admin.PrivateKey, tx)
 	if err != nil {
 		logger.Fatal(err)
 	}

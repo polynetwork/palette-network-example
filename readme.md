@@ -2,13 +2,22 @@
 
     this document described how to create a palette network with scratch.
 
-# 1.admin account
+# 1.admin and test account
 ```bash
 geth --datadir=admin account new
 ```
 
 Public address of the key:   0xf3A9d42C01635A585f1721463842F8936075105F 
 Path of the secret key file: admin/keystore/UTC--2020-09-11T02-29-49.024005000Z--f3a9d42c01635a585f1721463842f8936075105f 
+
+Public address of the key:   0x99E2A19CB2D4698Ee2A040E953ea5014a65FC218
+Path of the secret key file: admin/keystore/UTC--2020-09-14T06-26-51.546662000Z--99e2a19cb2d4698ee2a040e953ea5014a65fc218
+
+Public address of the key:   0xeCce5F1346aFEe82990cccC52FE521005bD54ff0
+Path of the secret key file: admin/keystore/UTC--2020-09-14T06-27-00.280341000Z--ecce5f1346afee82990cccc52fe521005bd54ff0
+
+Public address of the key:   0x2fFff236ff085B4D468B14C7b7b9fa1974A3bF7d
+Path of the secret key file: admin/keystore/UTC--2020-09-14T06-27-08.318469000Z--2ffff236ff085b4d468b14c7b7b9fa1974a3bf7d
 
 # 2.mkdir node dir
 ```bash

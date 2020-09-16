@@ -2,6 +2,7 @@ package utils
 
 import (
 	"context"
+	"crypto/ecdsa"
 	"encoding/hex"
 	"fmt"
 	"math/big"
@@ -49,13 +50,13 @@ func (c *PaletteClient) GetNonce(address string) (uint64, error) {
 	return bigNonce.Uint64(), nil
 }
 
-func (c *PaletteClient) SignTransaction(tx *types.Transaction) (string, error) {
+func (c *PaletteClient) SignTransaction(key *ecdsa.PrivateKey, tx *types.Transaction) (string, error) {
 
 	signer := types.HomesteadSigner{}
 	signedTx, err := types.SignTx(
 		tx,
 		signer,
-		c.key.PrivateKey,
+		key,
 	)
 	if err != nil {
 		return "", fmt.Errorf("failed to sign tx: [%v]", err)
@@ -78,7 +79,7 @@ func (c *PaletteClient) SendRawTransaction(signedTx string) (common.Hash, error)
 }
 
 func (c *PaletteClient) AdminAddress() common.Address {
-	return c.key.Address
+	return c.Admin.Address
 }
 
 func (c *PaletteClient) DumpEventLog(hash common.Hash) error {
